@@ -1,0 +1,2 @@
+# Interesting Coding Problems
+My solutions to interesting coding problems. These include some I have thought of myself and others I've come across. The problems are also accompanied by light-weight test suites or links to full-fledged test suites.
