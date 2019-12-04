@@ -24,3 +24,20 @@ def lowest_index(arr, target):
             end = mid
 
     return end
+
+
+def count_in_sorted(arr, target, target_inc):
+    """ Count of target in arr.
+
+    Args:
+        arr array
+        target value to count in arr
+        target_inc smallest value greater than target considering type(s) of
+            elements in arr
+    Returns:
+        same value as arr.count(target)
+    Preconditions:
+        arr == sorted(arr)
+        < should be supported between target(_inc) and elements of arr
+    """
+    return lowest_index(arr, target_inc) - lowest_index(arr, target)
