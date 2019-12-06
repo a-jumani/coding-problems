@@ -1,6 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include <catch2/catch.hpp>
+#include <climits>
 #include <vector>
 
 using namespace std;
@@ -12,6 +13,15 @@ const vector<int> prefix_sum(const vector<int> arr) {
     for ( int i = 1, n = arr.size(); i < n; i++ )
         ps.push_back(ps.back() + arr[i]);
     return ps;
+}
+
+// calculate sum( arr[from + 1], ... , arr[to] ) given its prefix sum array
+//     prefix_sum, where prefix_sum[i] = sum ( arr[0], ... , arr[i] )
+// preconditions: to < prefix_sum.size()
+int subarray_sum(const vector<int> prefix_sum, const int to, const int from = -1) {
+    if ( to < 0 || to <= from )
+        return 0;
+    return from > -1 ? prefix_sum[to] - prefix_sum[from] : prefix_sum[to];
 }
 
 // solve painter's partition problem using binary search with DP
@@ -31,7 +41,18 @@ int partition_bs(const vector<int> prefix_sum, const int k) {
 // brute-force solution - ref: geeksforgeeks.org/painters-partition-problem
 // preconditions: *prefix_sum has n elements; n > 0; k > 0
 int partition_bf(const vector<int> prefix_sum, const int n, const int k) {
-    return 0;
+    // base cases
+    if ( k == 1 )
+        return subarray_sum(prefix_sum, n-1);
+    if ( n == 1 )
+        return prefix_sum[0];
+    
+    // try all partitions
+    int best = INT_MAX;
+    for ( int i = 1; i <= n; ++i )
+        best = min(best, max(partition_bf(prefix_sum, i, k-1), subarray_sum(prefix_sum, n-1, i-1)));
+    
+    return best;
 }
 
 // test cases
