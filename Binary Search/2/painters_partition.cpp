@@ -28,7 +28,55 @@ int subarray_sum(const vector<int> prefix_sum, const int to, const int from = -1
 // complexity: (time, space) = (O(k n log n), O(n))
 // preconditions: *prefix_sum has n elements; n > 0; k > 0
 int partition_dp(const vector<int> prefix_sum, const int k) {
-    return 0;
+    
+    // create dp tables
+    const int n = prefix_sum.size();
+    vector<int> dp_old(n+1, 0);
+    vector<int> dp_new(n+1, 0);
+
+    // initialize the tables for base case: k = 1
+    for ( int i = 0; i < n; i++ )
+        dp_old[i+1] = subarray_sum(prefix_sum, i, -1);
+
+    // solve bottom-up
+    for ( int p = 2; p <= k; p++ ) {
+        
+        for ( int j = p-1; j <= n; j++ ) {
+
+            // best split between the time requirements
+            int result = INT_MAX;
+
+            // binary search for the best m (0 <= m <= j-1)
+            int left = 0, right = j;
+            while ( left < right ) {
+                
+                int m = (left+right) / 2;
+                
+                // time required from p-th worker
+                int pth_time = subarray_sum(prefix_sum, j-1, m-1);
+
+                // time required by p-1 workers
+                int rest_time = dp_old[m];
+                
+                // update the best split found till now
+                result = min(result, max(pth_time, rest_time));
+
+                if ( pth_time < rest_time )
+                    right = m;
+                else if ( pth_time > rest_time )
+                    left = m+1;
+                else
+                    break;
+            }
+
+            // record the best split
+            dp_new[j] = result;
+        }
+
+        dp_old.swap(dp_new);
+    }
+
+    return dp_old.back();
 }
 
 // solve painter's partition problem using binary search
