@@ -8,7 +8,7 @@ using namespace std;
 
 // compute prefix sum of an array
 // preconditions: arr has n elements; n > 0
-const vector<int> prefix_sum(const vector<int> arr) {
+const vector<int> prefix_sum(const vector<int> &arr) {
     vector<int> ps(1, arr[0]);
     for ( int i = 1, n = arr.size(); i < n; i++ )
         ps.push_back(ps.back() + arr[i]);
@@ -18,7 +18,7 @@ const vector<int> prefix_sum(const vector<int> arr) {
 // calculate sum( arr[from + 1], ... , arr[to] ) given its prefix sum array
 //     prefix_sum, where prefix_sum[i] = sum ( arr[0], ... , arr[i] )
 // preconditions: to < prefix_sum.size()
-int subarray_sum(const vector<int> prefix_sum, const int to, const int from = -1) {
+int subarray_sum(const vector<int> &prefix_sum, const int to, const int from = -1) {
     if ( to < 0 || to <= from )
         return 0;
     return from > -1 ? prefix_sum[to] - prefix_sum[from] : prefix_sum[to];
@@ -27,7 +27,7 @@ int subarray_sum(const vector<int> prefix_sum, const int to, const int from = -1
 // solve painter's partition problem using binary search with DP
 // complexity: (time, space) = (O(k n log n), O(n))
 // preconditions: *prefix_sum has n elements; n > 0; k > 0
-int partition_dp(const vector<int> prefix_sum, const int k) {
+int partition_dp(const vector<int> &prefix_sum, const int k) {
     
     // create dp tables
     const int n = prefix_sum.size();
@@ -82,13 +82,13 @@ int partition_dp(const vector<int> prefix_sum, const int k) {
 // solve painter's partition problem using binary search
 // complexity: (time, space) = (O(n log n), O(1))
 // preconditions: *prefix_sum has n elements; n > 0; k > 0
-int partition_bs(const vector<int> prefix_sum, const int k) {
+int partition_bs(const vector<int> &prefix_sum, const int k) {
     return 0;
 }
 
 // brute-force solution - ref: geeksforgeeks.org/painters-partition-problem
 // preconditions: *prefix_sum has n elements; n > 0; k > 0
-int partition_bf(const vector<int> prefix_sum, const int n, const int k) {
+int partition_bf(const vector<int> &prefix_sum, const int n, const int k) {
     // base cases
     if ( k == 1 )
         return subarray_sum(prefix_sum, n-1);
