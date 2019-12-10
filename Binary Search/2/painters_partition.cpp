@@ -122,10 +122,12 @@ TEST_CASE( "Base and corner cases", "[painter's partitions]" ) {
     vector<int> B = prefix_sum({ 10, 20, 10, 40 });
     n = 4, k = 1;
     REQUIRE( partition_dp(B, k) == partition_bf(B, n, k) );
+    REQUIRE( partition_bs(B, k) == partition_bf(B, n, k) );
 
     vector<int> C = prefix_sum({ 100, 1000, 1, 3, 22, 10101, 1 });
     n = 7, k = 1;
     REQUIRE( partition_dp(C, k) == partition_bf(C, n, k) );
+    REQUIRE( partition_bs(C, k) == partition_bf(C, n, k) );
 }
 
 TEST_CASE( "Mid-sized cases", "[painter's partition]" ) {
@@ -198,12 +200,17 @@ TEST_CASE( "Mid-sized cases", "[painter's partition]" ) {
     vector<int> D = prefix_sum({ 100, 200, 300, 400, 500, 600, 700, 800, 900 });
     n = 9, k = 2;
     REQUIRE( partition_dp(D, k) == partition_bf(D, n, k) );
+    REQUIRE( partition_bs(D, k) == partition_bf(D, n, k) );
     k = 3;
     REQUIRE( partition_dp(D, k) == partition_bf(D, n, k) );
+    REQUIRE( partition_bs(D, k) == partition_bf(D, n, k) );
     k = 4;
     REQUIRE( partition_dp(D, k) == partition_bf(D, n, k) );
+    REQUIRE( partition_bs(D, k) == partition_bf(D, n, k) );
     k = 5;
     REQUIRE( partition_dp(D, k) == partition_bf(D, n, k) );
+    REQUIRE( partition_bs(D, k) == partition_bf(D, n, k) );
     k = 6;
     REQUIRE( partition_dp(D, k) == partition_bf(D, n, k) );
+    REQUIRE( partition_bs(D, k) == partition_bf(D, n, k) );
 }
