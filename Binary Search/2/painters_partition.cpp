@@ -79,11 +79,51 @@ int partition_dp(const vector<int> &prefix_sum, const int k) {
     return dp_old.back();
 }
 
+// calculate number of painter's needed if no painter must
+// work for more than limit units of time
+int painters(const vector<int> &prefix_sum, int limit);
+
 // solve painter's partition problem using binary search
 // complexity: (time, space) = (O(n log n), O(1))
 // preconditions: *prefix_sum has n elements; n > 0; k > 0
 int partition_bs(const vector<int> &prefix_sum, const int k) {
-    return 0;
+    // get lower bound
+    int l = prefix_sum[0];
+    for ( int i = 1, n = prefix_sum.size(); i < n; ++i )
+        l = max(l, prefix_sum[i] - prefix_sum[i-1]);
+    
+    // get upper bound
+    int r = prefix_sum.back();
+
+    while ( l < r ) {
+        int mid = l + (r - l)/2;
+
+        // painters not sufficient
+        if ( k < painters(prefix_sum, mid) )
+            l = mid + 1;
+        else
+            r = mid;
+    }
+
+    return l;
+}
+
+int painters(const vector<int> &prefix_sum, int limit) {
+
+    // track number of painters and cumulative load assigned
+    int result = 1, prev_load_cum = 0;
+    for ( int i = 0, n = prefix_sum.size(); i <  n; ++i ) {
+
+        // load on the current painter exceed limit
+        if ( prefix_sum[i] - prev_load_cum > limit ) {
+
+            // bring in a new painter
+            prev_load_cum = prefix_sum[i-1];
+            ++result;
+        }
+    }
+
+    return result;
 }
 
 // brute-force solution - ref: geeksforgeeks.org/painters-partition-problem
