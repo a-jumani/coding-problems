@@ -140,18 +140,16 @@ int painters(const vector<int> &prefix_sum, int limit) {
 // brute-force solution - ref: geeksforgeeks.org/painters-partition-problem
 // preconditions:
 //   prefix_sum.size() == n
-//   n > 0
-//   k > 0
 int partition_bf(const vector<int> &prefix_sum, const int n, const int k) {
     // base cases
-    if ( k == 1 )
-        return subarray_sum(prefix_sum, n-1);
-    if ( n == 1 )
-        return prefix_sum[0];
+    if ( n == 0 )
+        return 0;
+    if ( k == 0 )
+        return INT_MAX;
     
     // try all partitions
     int best = INT_MAX;
-    for ( int i = 1; i <= n; ++i )
+    for ( int i = 0; i <= n; ++i )
         best = min(best, max(partition_bf(prefix_sum, i, k-1), subarray_sum(prefix_sum, n-1, i-1)));
     
     return best;
