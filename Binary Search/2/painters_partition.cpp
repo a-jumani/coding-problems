@@ -7,7 +7,8 @@
 using namespace std;
 
 // compute prefix sum of an array
-// preconditions: arr has n elements; n > 0
+// preconditions:
+//   arr.size() > 0
 const vector<int> prefix_sum(const vector<int> &arr) {
     vector<int> ps(1, arr[0]);
     for ( int i = 1, n = arr.size(); i < n; i++ )
@@ -16,17 +17,20 @@ const vector<int> prefix_sum(const vector<int> &arr) {
 }
 
 // calculate sum( arr[from + 1], ... , arr[to] ) given its prefix sum array
-//     prefix_sum, where prefix_sum[i] = sum ( arr[0], ... , arr[i] )
-// preconditions: to < prefix_sum.size()
+// preconditions:
+//   to < prefix_sum.size()
+//   from >= -1
+//   prefix_sum[i] = sum ( arr[0], ... , arr[i] )
 int subarray_sum(const vector<int> &prefix_sum, const int to, const int from = -1) {
     if ( to < 0 || to <= from )
         return 0;
     return from > -1 ? prefix_sum[to] - prefix_sum[from] : prefix_sum[to];
 }
 
-// solve painter's partition problem using binary search with DP
+// solve painter's partition problem using binary search within DP
 // complexity: (time, space) = (O(k n log n), O(n))
-// preconditions: *prefix_sum has n elements; n > 0; k > 0
+// preconditions:
+//   k > 0
 int partition_dp(const vector<int> &prefix_sum, const int k) {
     
     // create dp tables
@@ -81,11 +85,15 @@ int partition_dp(const vector<int> &prefix_sum, const int k) {
 
 // calculate number of painter's needed if no painter must
 // work for more than limit units of time
+// preconditions:
+//   for all i, limit >= prefix_sum[i] - prefix_sum[i-1]
 int painters(const vector<int> &prefix_sum, int limit);
 
 // solve painter's partition problem using binary search
 // complexity: (time, space) = (O(n log n), O(1))
-// preconditions: *prefix_sum has n elements; n > 0; k > 0
+// preconditions:
+//   prefix_sum.size() > 0
+//   k > 0
 int partition_bs(const vector<int> &prefix_sum, const int k) {
     // get lower bound
     int l = prefix_sum[0];
@@ -127,7 +135,10 @@ int painters(const vector<int> &prefix_sum, int limit) {
 }
 
 // brute-force solution - ref: geeksforgeeks.org/painters-partition-problem
-// preconditions: *prefix_sum has n elements; n > 0; k > 0
+// preconditions:
+//   prefix_sum.size() == n
+//   n > 0
+//   k > 0
 int partition_bf(const vector<int> &prefix_sum, const int n, const int k) {
     // base cases
     if ( k == 1 )
