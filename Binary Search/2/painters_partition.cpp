@@ -91,9 +91,12 @@ int painters(const vector<int> &prefix_sum, int limit);
 // solve painter's partition problem using binary search
 // complexity: (time, space) = (O(n log n), O(1))
 // preconditions:
-//   prefix_sum.size() > 0
 //   k > 0
 int partition_bs(const vector<int> &prefix_sum, const int k) {
+
+    // base case
+    if ( prefix_sum.size() == 0 )
+        return 0;
     
     // get lower bound
     int l = prefix_sum[0];
