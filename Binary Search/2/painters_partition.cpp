@@ -35,20 +35,19 @@ int partition_dp(const vector<int> &prefix_sum, const int k) {
     
     // create dp tables
     const int n = prefix_sum.size();
-    vector<int> dp_old(n+1, 0);
+    vector<int> dp_old(n+1, INT_MAX);
     vector<int> dp_new(n+1, 0);
-
-    // initialize the tables for base case: k = 1
-    for ( int i = 0; i < n; i++ )
-        dp_old[i+1] = subarray_sum(prefix_sum, i, -1);
-
+    
+    // initialize dp_old for 0 painters
+    dp_old[0] = 0;
+    
     // solve bottom-up
-    for ( int p = 2; p <= k; p++ ) {
+    for ( int p = 1; p <= k; p++ ) {
         
         for ( int j = p-1; j <= n; j++ ) {
 
             // best split between the time requirements
-            int result = INT_MAX;
+            int result = dp_old[j];
 
             // binary search for the best m (0 <= m <= j-1)
             int left = 0, right = j;
@@ -95,6 +94,7 @@ int painters(const vector<int> &prefix_sum, int limit);
 //   prefix_sum.size() > 0
 //   k > 0
 int partition_bs(const vector<int> &prefix_sum, const int k) {
+    
     // get lower bound
     int l = prefix_sum[0];
     for ( int i = 1, n = prefix_sum.size(); i < n; ++i )
