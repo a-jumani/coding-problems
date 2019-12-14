@@ -31,6 +31,20 @@ def fib(n):
     return fib_n
 
 
+def climb_stairs(n):
+    """ Number of paths to climb n stairs if each move comprises of climbing 1
+    or 2 steps.
+
+    Args:
+        n integer
+    Returns:
+        integer
+    Preconditions:
+        n >= 0
+    """
+    return fib(n)
+
+
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
