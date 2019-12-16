@@ -26,24 +26,6 @@ def fib(n):
         integer Fib(n)
     Preconditions:
         n >= 0
-
-    Examples:
-    >>> fib(0)
-    1
-    >>> fib(1)
-    1
-    >>> fib(2)
-    2
-    >>> fib(3)
-    3
-    >>> fib(4)
-    5
-    >>> fib(5)
-    8
-    >>> fib(6)
-    13
-    >>> fib(7)
-    21
     """
     return _fib_rec(n)[0]
 
@@ -60,8 +42,3 @@ def climb_stairs(n):
         n >= 0
     """
     return fib(n)
-
-
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
