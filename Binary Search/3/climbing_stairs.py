@@ -22,9 +22,6 @@ def _fib_rec(n):
 def fib(n):
     """ Calculate nth Fibonacci number assuming Fib(0) = Fib(1) = 1.
 
-    >>> [fib(i) for i in range(12)]
-    [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144]
-
     Args:
         n integer
     Returns:
@@ -47,8 +44,3 @@ def climb_stairs(n):
         n >= 0
     """
     return fib(n)
-
-
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
