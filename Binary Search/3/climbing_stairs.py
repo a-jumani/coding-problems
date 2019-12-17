@@ -9,17 +9,22 @@ def _fib_rec(n):
     Preconditions:
         n >= 0
     """
-    if n == 0:
-        return (1, 0)
-    if n == 1:
-        return (1, 1)
-    f1, f2 = _fib_rec(n//2)
-    r1, r2 = f1 * (2*f2 + f1), f1**2 + f2**2
-    return (r1, r2) if n % 2 != 0 else (r2, r1-r2)
+    (f1, f2), i = (1, 0), 31
+    while i >= 0:
+        if (n >> i) > 0:
+            f1, f2 = f1**2 + f2**2, f2 * (2*f1 - f2)
+            if (n >> i) % 2 == 1:
+                f1, f2 = f1 + f2, f1
+        i -= 1
+    return f1, f2
 
 
 def fib(n):
     """ Calculate nth Fibonacci number assuming Fib(0) = Fib(1) = 1.
+
+    >>> [fib(i) for i in range(12)]
+    [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144]
+
     Args:
         n integer
     Returns:
@@ -42,3 +47,8 @@ def climb_stairs(n):
         n >= 0
     """
     return fib(n)
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
