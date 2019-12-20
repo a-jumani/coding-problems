@@ -1,4 +1,5 @@
 #include <climits>
+#include <iostream>
 #include <vector>
 
 using namespace std;
@@ -16,24 +17,13 @@ using namespace std;
 int coin_change(const vector<int>& coins, const int amount) {
 
     // initialize memo for amount 0
-    vector<vector<int> > memo(coins.size(), vector<int>(amount + 1, INT_MAX));
-    for ( int i = 0; i < coins.size(); ++i )
-        memo[i][0] = 0;
+    vector<int> memo(amount + 1, INT_MAX);
+    memo[0] = 0;
     
-    for ( int i = 1; i <= amount; i++ ) {
-        
-        for ( int c = 0; c < coins.size(); ++c ) {
+    for ( int i = 1; i <= amount; i++ )
+        for ( auto c : coins )
+            if ( i-c >= 0 && memo[i-c] < memo[i] )
+                memo[i] = 1 + memo[i-c];
 
-            // don't use coins[c]
-            if ( c > 0 )
-                memo[c][i] = memo[c-1][i];
-            
-            // use coins[c]
-            if ( i-coins[c] >= 0 && memo[c][i-coins[c]] < INT_MAX )
-                memo[c][i] = min(memo[c][i], 1 + memo[c][i-coins[c]]);
-        }
-    }
-
-    int result = memo.back().back();
-    return ( result == INT_MAX ) ? -1 : result;
+    return ( memo.back() == INT_MAX ) ? -1 : memo.back();
 }
