@@ -16,9 +16,8 @@ int knapsack(const vector<int> &v, const vector<int> &w, int C) {
     vector<int> memo(C+1, 0);
 
     for ( int i = 0; i < v.size(); ++i )
-        for ( int c = C; c >= 0; --c )
-            if ( w[i] <= c )
-                memo[c] = max(memo[c], memo[c-w[i]] + v[i]);
+        for ( int c = C; c >= w[i]; --c )
+            memo[c] = max(memo[c], memo[c-w[i]] + v[i]);
 
     return memo.back();
 }
