@@ -14,5 +14,20 @@ struct node {
 // preconditions:
 //   head_ref != nullptr
 void bintree_to_dll(node* root, node **head_ref) {
-    // code
+
+    // base case
+    if ( root == nullptr )
+        return;
+    
+    // convert right subtree and add to list
+    bintree_to_dll(root->right, head_ref);
+
+    // add root to list
+    root->right = *head_ref;
+    if ( *head_ref != nullptr )
+        (*head_ref)->left = root;
+    *head_ref = root;
+
+    // convert left subtree
+    bintree_to_dll(root->left, head_ref);
 }
